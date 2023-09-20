@@ -115,9 +115,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         # split the args(param) with space as the delimiter
-        command_list = args.split()
+        parameters = args.split()
         # class name is the first args(parameter)
-        class_name = command_list[0]
+        class_name = parameters[0]
         """ Create an object of any class"""
         if not class_name:
             print("** class name missing **")
@@ -128,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
 
         # Form the key value with the remaining args(param)
         attributes = {}
-        for param in command_list:
+        for param in parameters:
             if '=' not in param:
                 continue
             key, value = param.split("=")
