@@ -128,19 +128,19 @@ class HBNBCommand(cmd.Cmd):
 
         # Form the key value with the remaining args(param)
         attributes = {}
-        for param in parameters:
+        for param in parameters[1:]:
             if '=' not in param:
                 continue
             key, value = param.split("=")
             key = key.strip()
             # verifying whether the value start with a double quotes '"'
             if value[0] == '"':
-                # escaping the '"' with double slash
-                value = value.replace('"', '\\"')
-                # replacing the underscore with space
-                value = value.replace('_', ' ')
                 # removing the leading white trailing lines
                 value = value.strip(' "')
+                # escaping the '"' with double slash
+                value = value.replace('"', '//"')
+                # replacing the underscore with space
+                value = value.replace('_', ' ')
             else:
                 value = eval(value)
             # adding each of my param in the attributes dictionary
@@ -226,21 +226,16 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
-
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+            objects = storage.all(eval(args))
+            print([objects[key].__str__() for key in objects])
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+            # Added this line to retrieve all objects
+            objects = storage
 
     def help_all(self):
         """ Help information for the all command """
