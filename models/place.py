@@ -9,6 +9,14 @@ import models
 # Get storage environment varible
 storage_type = os.getenv('HBNB_TYPE_STORAGE')
 
+place_amenity_table = Table("place_amenity", Base.metadata,
+                            Column("place_id", String(60),
+                                   Foreign_Key("places.id"), primary_key=True,
+                                   nullable=False),
+                            Column("amenity_id", String(60),
+                                ForeignKey("amenities.id"),
+                                primary_key=True, nullable=False))
+
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -30,6 +38,10 @@ class Place(BaseModel, Base):
             "Review",
             backref="place",
             cascade="all, delete")
+        amenities=relationship(
+                "Amenity", secondary=place_amenity_table,
+                back_populates="place_amenities",
+                viewonly=False)
     else:
         @property
         def reviews(self):
@@ -39,3 +51,18 @@ class Place(BaseModel, Base):
                 if review.place_id == self.id:
                     reviews.append(review)
             return reviews
+
+        @property
+        def amenities(self):
+            """Getter function for amenities"""
+            amenities = []
+            for amenity in list(models.storage,all(Amenity).values()):
+                if amenity.id in self.amenity_ids:
+                    amenities.append(amenity)
+            return amenities
+
+        @amenities.setter
+        def amenities(self, value):
+            """ setter function for amenities """
+            if type(value) == Amenity:
+                self.amenity_ids.append(value.id)
