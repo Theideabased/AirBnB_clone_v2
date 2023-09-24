@@ -15,15 +15,18 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
-        if not kwargs:
-            self.id = str(uuid.uuid4())
-            self.created_at = self.updated =  datetime.now()
-        else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
+        self.id = str(uuid.uuid4())
+        self.created_at = self.updated =  datetime.utcnow()
+        
+        if kwargs:
+            if 'updated_at' in kwargs.keys():
+                kwargs['updated_at'] = datetime.strptime(
+                        kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+            if 'created_at' in kwargs.keys():
+                kwargs['created_at'] = datetime.strptime(
+                        kwargs['created_at'],'%Y-%m-%dT%H:%M:%S.%f')
+            if '__class__' in kwargs.keys():
+                del kwargs['__class__']
             for key, value in kwargs.items():
                 setattr(self, key, value)
 
