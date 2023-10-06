@@ -19,8 +19,13 @@ mkdir -p /data/web_static/shared/
 mkdir -p /data/web_static/releases/test
 
 # create a fake html fike
-echo "<html>\n <head>\n </head>\n <body>\n Holberton School\n \
-	</body>\n </html>">> /data/web_static/releases/test/index.html
+printf "<html>
+	<head>
+	</head>
+	<body>
+	Holberton School	
+	</body>
+	</html>"> /data/web_static/releases/test/index.html
 
 # creating a symbolic link 
 ln -sf /data/web_static/releases/test/ /data/web_static/current
@@ -41,7 +46,7 @@ printf %s "server {
         index index.html index.htm;
     }
     location /redirect_me {
-        return 301 http://cuberule.com/;
+        return 301 http://seyiemmanuel.com/;
     }
     error_page 404 /404.html;
     location /404 {
