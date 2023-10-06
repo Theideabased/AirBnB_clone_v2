@@ -6,6 +6,7 @@ from fabric.api import local, runs_once
 
 
 # setting up my fabric for deployment
+@runs_once
 def do_pack():
     """Archives the static files."""
     if not os.path.isdir("versions"):
