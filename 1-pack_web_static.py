@@ -5,7 +5,7 @@ from datetime import datetime
 from fabric.api import local, runs_once
 
 
-@runs_once
+# setting up my fabric for deployment
 def do_pack():
     """Archives the static files."""
     if not os.path.isdir("versions"):
