@@ -1,58 +1,12 @@
 #!/usr/bin/env bash
-# This will set uo the web server so we can deploy our Airbnb clone project
-sudo apt-get update
-sudo apt-get install nginx
+# sets up the web servers for the deployment of web_static
 
-# creaye a foldee /data/ if not exists
-mkdir -p /data/
-
-# create a folder /data/web_static if not exist
-mkdir -p /data/web_static/
-
-# create a folder /data/web_static/releases/ if not exist
-mkdir -p /data/web_static/releases/
-
-# create a folder /data/web_static/shared/ if not exists
-mkdir -p /data/web_static/shared/
-
-# create a folder /data/web_static/releases/test/ if not exist
-mkdir -p /data/web_static/releases/test
-
-# create a fake html fike
-printf "<html>
-	<head>
-	</head>
-	<body>
-	Holberton School	
-	</body>
-	</html>"> /data/web_static/releases/test/index.html
-
-# creating a symbolic link 
-ln -sf /data/web_static/releases/test/ /data/web_static/current
-
-# give ownership of the /data/ to ubuntu
-chown -R ubuntu /data/
-chgrp -R ubuntu /data/
-
-# update the nginx configuration to serve the content of /data/web_static/current/ to hbnb_static
-printf %s "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    add_header X-Served-By $HOSTNAME;
-    root   /var/www/html;
-    index  index.html index.htm;
-    location /hbnb_static {
-        alias /data/web_static/current;
-        index index.html index.htm;
-    }
-    location /redirect_me {
-        return 301 http://seyiemmanuel.com/;
-    }
-    error_page 404 /404.html;
-    location /404 {
-      root /var/www/html;
-      internal;
-    }
-}" > /etc/nginx/sites-available/default
-
-service nginx restart
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install nginx
+sudo mkdir -p /data/web_static/releases/test /data/web_static/shared
+echo "This is a test" | sudo tee /data/web_static/releases/test/index.html
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo chown -hR ubuntu:ubuntu /data/
+sudo sed -i '38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
+sudo service nginx start
