@@ -51,13 +51,13 @@ def post_review(place_id):
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'user_id' not in request.get_json():
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({'error': 'Missing user_id'}), 400)
+    if 'text' not in request.get_json():
+        return make_response(jsonify({'error': 'Missing text'}), 400)
     review = request.get_json()
     user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
-    if 'text' not in request.get_json():
-        return make_response(jsonify({'error': 'Missing text'}), 400)
     review["place_id"] = place_id
     review = Review(**review)
     review.save()
