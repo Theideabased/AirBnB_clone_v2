@@ -10,7 +10,7 @@ from models import storage
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def get_reviews(place_id):
+def reviews(place_id):
     """Retrieves the list of all Review objects of a Place"""
     place = storage.get(Place, place_id)
     if not place:
@@ -22,7 +22,7 @@ def get_reviews(place_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
-def get_review(review_id):
+def retrieve(review_id):
     """Retrieves a Review object"""
     review = storage.get(Review, review_id)
     if not review:
@@ -50,15 +50,15 @@ def post_review(place_id):
     if not place:
         abort(404)
     if not request.get_json():
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if 'user_id' not in request.get_json():
-        return make_response(jsonify({'error': 'Not a JSON'}), 400)
+        return make_response(jsonify({"error": "Missing user_id"}), 400)
     review = request.get_json()
     user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
     if 'text' not in request.get_json():
-        return make_response(jsonify({'error': 'Missing text'}), 400)
+        return make_response(jsonify({"error": "Missing text"}), 400)
     review = Review(**review)
     review.place_id = place.id
     review.save()
