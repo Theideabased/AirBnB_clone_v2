@@ -20,6 +20,8 @@ def states():
 def one_state(state_id):
     """Retrieves a State objec"""
     s = storage.get(State, state_id)
+    if not s:
+        abort(404)
     return jsonify(s.to_dict())
 
 
@@ -27,6 +29,8 @@ def one_state(state_id):
 def delete_state(state_id):
     """Deletes a State object"""
     s = storage.get(State, state_id)
+    if not s:
+        abort(404)
     storage.delete(s)
     storage.save()
     return make_response(jsonify({}), 200)
@@ -35,6 +39,10 @@ def delete_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_states():
     """Creates a State"""
+    if not request.get_json():
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    if 'name' not in request.get_json():
+        return make_response(jsonify({}), 400)
     item = request.get_json()
     add = State(**item)
     add.save()
@@ -45,6 +53,10 @@ def create_states():
 def update_state(state_id):
     """Updates a State object"""
     s = storage.get(State, state_id)
+    if not s:
+        abort(404)
+    if not request.get_json():
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     item = request.get_json()
     for k, v in item.items():
         if k not in ['id', 'created_at', 'updated_at']:
