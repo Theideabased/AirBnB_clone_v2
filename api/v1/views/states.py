@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""view for State objects that handles all default RESTFul API actions """
 from flask import jsonify, abort, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -7,6 +8,7 @@ from models.state import State
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def states():
+    """Retrieves the list of all State objects"""
     all_items = storage.all(State)
     lis = []
     for i in all_items.values():
@@ -16,12 +18,14 @@ def states():
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def one_state(state_id):
+    """Retrieves a State objec"""
     s = storage.get(State, state_id)
     return jsonify(s.to_dict())
 
 
 @app_views.route('states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
+    """Deletes a State object"""
     s = storage.get(State, state_id)
     storage.delete(s)
     storage.save()
@@ -30,6 +34,7 @@ def delete_state(state_id):
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_states():
+    """Creates a State"""
     item = request.get_json()
     add = State(**item)
     add.save()
@@ -38,6 +43,7 @@ def create_states():
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
+    """Updates a State object"""
     s = storage.get(State, state_id)
     item = request.get_json()
     for k, v in item.items():
