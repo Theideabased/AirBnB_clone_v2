@@ -10,6 +10,7 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def close(exception):
+    """closes the database"""
     storage.close()
 
 
@@ -17,6 +18,7 @@ def close(exception):
 def handle_exception(e):
     """Return JSON instead of HTML for HTTP errors."""
     return jsonify({"error": "Not found"}), 404
+
 
 if __name__ == "__main__":
     host = os.environ.get('HBNB_API_HOST')
