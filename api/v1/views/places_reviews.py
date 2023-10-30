@@ -60,6 +60,7 @@ def post_review(place_id):
         abort(404)
     review["place_id"] = place_id
     review = Review(**review)
+    review.place_id = place.id
     review.save()
     return make_response(jsonify(review.to_dict()), 201)
 
