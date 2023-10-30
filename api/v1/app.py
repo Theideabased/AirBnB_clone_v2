@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""script that starts Flask web application"""
 from flask import Flask, jsonify, json
 from models import storage
 from api.v1.views import app_views
