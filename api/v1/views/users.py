@@ -72,7 +72,7 @@ def update_user(user_id):
     obj = storage.get("Amenity", amenities_id)
     if obj is None:
         abort(404)
- obj_data = request.get_json()
+    obj_data = request.get_json()
     ignore = ("id", "email", "created_at", "updated_at")
     for k in obj_data.keys():
         if k in ignore:
