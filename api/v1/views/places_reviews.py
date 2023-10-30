@@ -58,7 +58,6 @@ def post_review(place_id):
     user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
-    review["place_id"] = place_id
     review = Review(**review)
     review.place_id = place.id
     review.save()
