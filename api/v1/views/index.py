@@ -16,7 +16,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def index():
-    """returns a JSON: "status": "OK""""
+    """returns a JSON: 'statu': 'OK'"""
     return jsonify({"status": "OK"})
 
 
