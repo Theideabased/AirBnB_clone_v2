@@ -23,7 +23,7 @@ def return_amnity(place_id):
     else:
         for amenity_id in place.amenity_ids:
             li.append(storage.get(Amenity, amenity_id).to_dict())
-    return jsonify(amenities)
+    return jsonify(li)
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
