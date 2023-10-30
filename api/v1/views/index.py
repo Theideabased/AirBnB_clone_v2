@@ -10,9 +10,6 @@ from models.state import State
 from models.user import User
 from models import storage
 
-classes = {"amenity": Amenity, "city": City,
-           "place": Place, "review": Review, "state": State, "user": User}
-
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
 def index():
@@ -23,6 +20,8 @@ def index():
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """retrieves the number of each objects by type"""
+    classes = {"amenity": Amenity, "city": City,
+           "place": Place, "review": Review, "state": State, "user": User}
     static = {}
     for k, v in classes.items():
         static[k] = storage.count(v)
