@@ -55,7 +55,7 @@ def post_review(place_id):
     if 'text' not in request.get_json():
         return make_response(jsonify({'error': 'Missing text'}), 400)
     review = request.get_json()
-    user = storage.get(User, data['user_id'])
+    user = storage.get(User, review['user_id'])
     if not user:
         abort(404)
     review = Review(**review)
