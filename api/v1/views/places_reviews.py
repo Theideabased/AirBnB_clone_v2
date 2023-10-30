@@ -59,9 +59,8 @@ def post_review(place_id):
     user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
-    
+    review['place_id'] = place_id
     r = Review(**review)
-    r.place_id = place.id
     r.save()
     return make_response(jsonify(r.to_dict()), 201)
 
