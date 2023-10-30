@@ -76,7 +76,7 @@ def put_review(review_id):
     items = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
     update = request.get_json()
     for k, v in update.items():
-        if key not in items:
+        if k not in items:
             setattr(review, k, v)
     storage.save()
     return make_response(jsonify(review.to_dict()), 200)
