@@ -39,7 +39,7 @@ def delete_amenity(place_id, amenity_id):
     if os.environ.get('HBNB_TYPE_STORAGE') == "db":
         if amenity not in place.amenities:
             abort(404)
-        place.amenities.remove(amenity)
+        place.amenities.delete(amenity)
     else:
         if amenity_id not in place.amenity_ids:
             abort(404)
