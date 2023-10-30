@@ -58,7 +58,7 @@ def create_object(place_id, amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not amenity:
         abort(404)
-    if environ.get('HBNB_TYPE_STORAGE') == "db":
+    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
         if amenity in place.amenities:
             return make_response(jsonify(amenity.to_dict()), 200)
         else:
