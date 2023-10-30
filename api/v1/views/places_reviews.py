@@ -59,10 +59,10 @@ def post_review(place_id):
         abort(404)
     if 'text' not in request.get_json():
         return make_response(jsonify({"error": "Missing text"}), 400)
-    review.place_id = place.id
-    review = Review(**review)
-    review.save()
-    return make_response(jsonify(review.to_dict()), 201)
+    r = Review(**review)
+    r.place_id = place.id
+    r.save()
+    return make_response(jsonify(r.to_dict()), 201)
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
