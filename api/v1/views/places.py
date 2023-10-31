@@ -81,6 +81,7 @@ def put_place(place_id):
     storage.save()
     return make_response(jsonify(place.to_dict()), 200)
 
+
 @app_views.route('/places_search', methods=['POST'],
                  strict_slashes=False)
 def search_places_by_id():
